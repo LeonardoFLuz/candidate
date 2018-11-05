@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,27 +26,23 @@ public class CandidateApi {
     @ApiOperation(value = "Get candidates List")
     public List<CandidateOutput> getAll(){
     	return candidateService.getAll();
-        //return new ArrayList<>();
     }
 
     @GetMapping("/{candidateId}")
     @ApiOperation(value = "Get candidate by Id")
     public CandidateOutput getById(@PathVariable Long candidateId){
     	return candidateService.getById(candidateId);
-        //return new CandidateOutput();
     }
 
     @PostMapping("/")
     @ApiOperation(value = "Create new candidate")
     public CandidateOutput create(@RequestBody CandidateInput candidateInput){
     	return candidateService.create(candidateInput);
-        //return new CandidateOutput();
     }
 
     @PutMapping("/{candidateId}")
     @ApiOperation(value = "Update candidate")
     public CandidateOutput update(@PathVariable Long candidateId, @RequestBody CandidateInput candidateInput){
-        //return new CandidateOutput();
     	return candidateService.update(candidateId, candidateInput);
     }
 
@@ -55,6 +50,5 @@ public class CandidateApi {
     @ApiOperation(value = "Delete candidate")
     public GenericOutput delete(@PathVariable Long candidateId){
     	return candidateService.delete(candidateId);
-        //return new GenericOutput("OK");
     }
 }
