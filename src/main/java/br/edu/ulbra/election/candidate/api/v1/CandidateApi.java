@@ -5,10 +5,8 @@ import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;
 import br.edu.ulbra.election.candidate.output.v1.GenericOutput;
 import br.edu.ulbra.election.candidate.service.CandidateService;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
