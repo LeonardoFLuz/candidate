@@ -14,7 +14,7 @@ import br.edu.ulbra.election.candidate.output.v1.GenericOutput;
 import br.edu.ulbra.election.candidate.exception.GenericOutputException;
 import br.edu.ulbra.election.candidate.input.v1.CandidateInput;
 import br.edu.ulbra.election.candidate.model.Candidate;
-import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;;
+import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;
 
 @Service
 public class CandidateService {
@@ -33,7 +33,7 @@ public class CandidateService {
     }
     
     public List<CandidateOutput> getAll(){
-        Type candidateOutputListType = new TypeToken<List<CandidateOutput>>(){}.getType();
+        Type candidateOutputListType = new TypeToken<List<CandidateOutput>>(){}.getType();       
         return modelMapper.map(candidateRepository.findAll(), candidateOutputListType);
     }
     
