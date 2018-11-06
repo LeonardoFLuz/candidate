@@ -12,7 +12,7 @@ public class Candidate {
 	@Column(nullable = false)
     private String name;
 	
-	@Column(nullable = false)
+	@Column(name = "number", nullable = false)
     private Long number;
 	
 	@Column(nullable = false)
