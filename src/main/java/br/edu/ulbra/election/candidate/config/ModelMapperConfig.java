@@ -24,12 +24,6 @@ public class ModelMapperConfig {
     		@Override
             protected void configure() {
                 map().setNumberElection(source.getNumber());
-                
-            	map().setElectionOutput(new ElectionOutput());
-            	map().getElectionOutput().setId(source.getElectionId());
-            	
-            	map().setPartyOutput(new PartyOutput());
-            	map().getPartyOutput().setId(source.getPartyId());
             }
         });
     	
@@ -37,9 +31,6 @@ public class ModelMapperConfig {
     		@Override
             protected void configure() {
                 map().setNumber(source.getNumberElection());
-                
-                map().setElectionId(source.getElectionOutput().getId());
-                map().setPartyId(source.getPartyOutput().getId());
             }
         });
     	

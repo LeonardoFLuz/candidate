@@ -1,20 +1,21 @@
 package br.edu.ulbra.election.candidate.service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.ulbra.election.candidate.repository.CandidateRepository;
 import br.edu.ulbra.election.candidate.output.v1.GenericOutput;
+import br.edu.ulbra.election.candidate.output.v1.PartyOutput;
 import br.edu.ulbra.election.candidate.exception.GenericOutputException;
 import br.edu.ulbra.election.candidate.input.v1.CandidateInput;
 import br.edu.ulbra.election.candidate.model.Candidate;
 import br.edu.ulbra.election.candidate.output.v1.CandidateOutput;
+import br.edu.ulbra.election.candidate.output.v1.ElectionOutput;
 
 @Service
 public class CandidateService {
@@ -33,15 +34,17 @@ public class CandidateService {
     }
     
     public List<CandidateOutput> getAll(){
-        Type candidateOutputListType = new TypeToken<List<CandidateOutput>>(){}.getType();       
-        return modelMapper.map(candidateRepository.findAll(), candidateOutputListType);
+        Iterable<Candidate> candidates = candidateRepository.findAll();
+        List<CandidateOutput> listOutput = new ArrayList<CandidateOutput>(); 
+        candidates.forEach(candidate -> listOutput.add(getOutput(candidate)));
+        return listOutput;
     }
     
     public CandidateOutput create(CandidateInput candidateInput) {
         validateInput(candidateInput, false);
         Candidate candidate = modelMapper.map(candidateInput, Candidate.class);
         candidate = candidateRepository.save(candidate);
-        return modelMapper.map(candidate, CandidateOutput.class);
+        return getOutput(candidate);
     }
     
     public CandidateOutput getById(Long candidateId){
@@ -54,7 +57,7 @@ public class CandidateService {
             throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
         }
 
-        return modelMapper.map(candidate, CandidateOutput.class);
+        return getOutput(candidate);
     }
     
     public CandidateOutput update(Long candidateId, CandidateInput candidateInput) {
@@ -74,7 +77,8 @@ public class CandidateService {
         candidate.setNumber(candidateInput.getNumberElection());
 
         candidate = candidateRepository.save(candidate);
-        return modelMapper.map(candidate, CandidateOutput.class);
+        
+        return getOutput(candidate);
     }
     
     public GenericOutput delete(Long candidateId) {
@@ -96,5 +100,20 @@ public class CandidateService {
         if (StringUtils.isBlank(candidateInput.getName())){
             throw new GenericOutputException("Invalid name");
         }
+    }
+    
+    private CandidateOutput getOutput(Candidate candidate) {
+    	CandidateOutput candidateOutput = modelMapper.map(candidate, CandidateOutput.class);
+    	
+    	ElectionOutput electionOutput = new ElectionOutput();
+    	electionOutput.setId(candidate.getElectionId());
+    	candidateOutput.setElectionOutput(electionOutput);
+    	
+    	PartyOutput partyOutput = new PartyOutput();
+    	partyOutput.setId(candidate.getPartyId());
+    	candidateOutput.setPartyOutput(partyOutput);
+    	
+    	return candidateOutput;
+    	
     }
 }
