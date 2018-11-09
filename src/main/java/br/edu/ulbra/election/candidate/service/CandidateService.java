@@ -19,6 +19,7 @@ import br.edu.ulbra.election.candidate.output.v1.ElectionOutput;
 
 @Service
 public class CandidateService {
+<<<<<<< HEAD
 
 	private final CandidateRepository candidateRepository;
 
@@ -135,4 +136,103 @@ public class CandidateService {
 			throw new GenericOutputException("Falta Sobrenome");
 		}
 	}
+=======
+	
+    private final CandidateRepository candidateRepository;
+
+    private final ModelMapper modelMapper;
+
+    private static final String MESSAGE_INVALID_ID = "Invalid id";
+    private static final String MESSAGE_CANDIDATE_NOT_FOUND = "Candidate not found";
+
+    @Autowired
+    public CandidateService(CandidateRepository candidateRepository, ModelMapper modelMapper){
+        this.candidateRepository = candidateRepository;
+        this.modelMapper = modelMapper;
+    }
+    
+    public List<CandidateOutput> getAll(){
+        Iterable<Candidate> candidates = candidateRepository.findAll();
+        List<CandidateOutput> listOutput = new ArrayList<CandidateOutput>(); 
+        candidates.forEach(candidate -> listOutput.add(getOutput(candidate)));
+        return listOutput;
+    }
+    
+    public CandidateOutput create(CandidateInput candidateInput) {
+        validateInput(candidateInput, false);
+        Candidate candidate = modelMapper.map(candidateInput, Candidate.class);
+        candidate = candidateRepository.save(candidate);
+        return getOutput(candidate);
+    }
+    
+    public CandidateOutput getById(Long candidateId){
+        if (candidateId == null){
+            throw new GenericOutputException(MESSAGE_INVALID_ID);
+        }
+
+        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+        if (candidate == null){
+            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+        }
+
+        return getOutput(candidate);
+    }
+    
+    public CandidateOutput update(Long candidateId, CandidateInput candidateInput) {
+        if (candidateId == null){
+            throw new GenericOutputException(MESSAGE_INVALID_ID);
+        }
+        validateInput(candidateInput, true);
+
+        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+        if (candidate == null){
+            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+        }
+
+        candidate.setElectionId(candidateInput.getElectionId());
+        candidate.setPartyId(candidateInput.getPartyId());
+        candidate.setName(candidateInput.getName());
+        candidate.setNumber(candidateInput.getNumberElection());
+
+        candidate = candidateRepository.save(candidate);
+        
+        return getOutput(candidate);
+    }
+    
+    public GenericOutput delete(Long candidateId) {
+        if (candidateId == null){
+            throw new GenericOutputException(MESSAGE_INVALID_ID);
+        }
+
+        Candidate candidate = candidateRepository.findById(candidateId).orElse(null);
+        if (candidate == null){
+            throw new GenericOutputException(MESSAGE_CANDIDATE_NOT_FOUND);
+        }
+
+        candidateRepository.delete(candidate);
+
+        return new GenericOutput("Candidate deleted");
+    }
+    
+    private void validateInput(CandidateInput candidateInput, boolean isUpdate){
+        if (StringUtils.isBlank(candidateInput.getName())){
+            throw new GenericOutputException("Invalid name");
+        }
+    }
+    
+    private CandidateOutput getOutput(Candidate candidate) {
+    	CandidateOutput candidateOutput = modelMapper.map(candidate, CandidateOutput.class);
+    	
+    	ElectionOutput electionOutput = new ElectionOutput();
+    	electionOutput.setId(candidate.getElectionId());
+    	candidateOutput.setElectionOutput(electionOutput);
+    	
+    	PartyOutput partyOutput = new PartyOutput();
+    	partyOutput.setId(candidate.getPartyId());
+    	candidateOutput.setPartyOutput(partyOutput);
+    	
+    	return candidateOutput;
+    	
+    }
+>>>>>>> 1ce85f053387a9175b39bb0ca775d8b616c1f1f5
 }
