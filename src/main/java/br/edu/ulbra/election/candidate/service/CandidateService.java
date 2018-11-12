@@ -97,7 +97,6 @@ public class CandidateService {
 		return new GenericOutput("Candidate deleted");
 	}
 
-
 	private CandidateOutput getOutput(Candidate candidate) {
 		CandidateOutput candidateOutput = modelMapper.map(candidate, CandidateOutput.class);
 
@@ -110,7 +109,6 @@ public class CandidateService {
 		candidateOutput.setPartyOutput(partyOutput);
 
 		return candidateOutput;
-
 	}
 
 	public Candidate findByName(String name){
@@ -123,17 +121,18 @@ public class CandidateService {
 		if (StringUtils.isBlank(candidateInput.getName())){
 			throw new GenericOutputException("Invalid name");
 		}
+		
 		if (candidateInput.getNumberElection() == null || candidateInput.getNumberElection() == 0){
 			throw new GenericOutputException("Invalid Number");
 		}
 
 		if(candidateInput.getName().length() < 5) {
-			throw new GenericOutputException("Nome teve ter no minimo 5 caracteres");
+			throw new GenericOutputException("Name must be at least 5 characters");
 		}
 		
-		String[] teste = candidateInput.getName().split(" ");
-		if(teste[1] == null) {
-			throw new GenericOutputException("Falta Sobrenome");
+		String[] names = candidateInput.getName().trim().split(" ");
+		if(names.length == 1) {
+			throw new GenericOutputException("Last name is required");
 		}
 	}
 	   
