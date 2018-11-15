@@ -4,60 +4,61 @@ import javax.persistence.*;
 
 @Entity
 public class Candidate {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
     private String name;
-	
-	@Column(nullable = false)
-    private Long number;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
+    private Long numberElection;
+
+    @Column(nullable = false)
     private Long electionId;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
     private Long partyId;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Long getNumber() {
-		return number;
-	}
+    public Long getNumberElection() {
+        return numberElection;
+    }
 
-	public void setNumber(Long number) {
-		this.number = number;
-	}
+    public void setNumberElection(Long numberElection) {
+        this.numberElection = numberElection;
+    }
 
-	public Long getElectionId() {
-		return electionId;
-	}
+    public Long getElectionId() {
+        return electionId;
+    }
 
-	public void setElectionId(Long election_id) {
-		this.electionId = election_id;
-	}
+    public void setElectionId(Long electionId) {
+        this.electionId = electionId;
+    }
 
-	public Long getPartyId() {
-		return partyId;
-	}
+    public Long getPartyId() {
+        return partyId;
+    }
 
-	public void setPartyId(Long party_id) {
-		this.partyId = party_id;
-	}
+    public void setPartyId(Long partyId) {
+        this.partyId = partyId;
+    }
+
 }
