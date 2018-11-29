@@ -27,29 +27,22 @@ public class CandidateApi {
         return candidateService.getAll();
     }
 
+    @GetMapping("/election/{electionId}")
+    @ApiOperation(value = "Get candidates List by Election")
+    public List<CandidateOutput> getByElection(@PathVariable Long electionId){
+        return candidateService.getByElection(electionId);
+    }
+
+    @GetMapping("/party/{partyId}")
+    @ApiOperation(value = "Get candidates List by Party")
+    public List<CandidateOutput> getByParty(@PathVariable Long partyId){
+        return candidateService.getByParty(partyId);
+    }
+
     @GetMapping("/{candidateId}")
     @ApiOperation(value = "Get candidate by Id")
     public CandidateOutput getById(@PathVariable Long candidateId){
         return candidateService.getById(candidateId);
-    }
-    
-    @GetMapping("/party/{partyId}")
-    @ApiOperation(value = "Get candidate by Party Id")
-    public List<CandidateOutput> getByPartyId(@PathVariable Long partyId){
-        return candidateService.getByPartyId(partyId);
-    }
-    
-    @GetMapping("/election/{electionId}")
-    @ApiOperation(value = "Get candidate by Election Id")
-    public List<CandidateOutput> getByElectionId(@PathVariable Long electionId){
-        return candidateService.getByElectionId(electionId);
-    }
-    
-    @GetMapping("/{numberElection}/{electionId}")
-    @ApiOperation(value = "Get candidate by Number Election and Election Id")
-    public CandidateOutput getFirstByNumberElectionAndElectionId(@PathVariable Long numberElection, @PathVariable Long electionId){
-        System.out.println("haha");
-    	return candidateService.getFirstByNumberElectionAndElectionId(numberElection, electionId);
     }
 
     @PostMapping("/")

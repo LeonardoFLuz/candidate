@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:~/tmp/db/candidate
+    url: jdbc:h2:file:/tmp/db/candidate
     platform: h2
     username: sa
     driver-class-name: org.h2.Driver
@@ -37,4 +37,3 @@ info:
 url:
   election-service: 'http://localhost:8084'
   party-service: 'http://localhost:8083'
-  vote-service: 'http://localhost:8084'
